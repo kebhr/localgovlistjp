@@ -197,10 +197,6 @@ func main() {
 			}
 		}
 	}
-	//
-	// for i, v := range municipalities {
-	// 	fmt.Printf("%d: 県: %s 市: %s 県EN: %s 市EN: %s\n", i, v.Pref, v.Name, v.PrefEn, v.NameEn)
-	// }
 
 	writerSjisCRLF.Flush()
 	writerUtf8CRLF.Flush()
