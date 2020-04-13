@@ -3,20 +3,21 @@ package main
 import (
 	"encoding/csv"
 	"fmt"
-	"golang.org/x/text/encoding/japanese"
-	"golang.org/x/text/transform"
 	"io"
 	"log"
 	"os"
 	"strings"
+
+	"golang.org/x/text/encoding/japanese"
+	"golang.org/x/text/transform"
 )
 
 type Municipality struct {
-	Pref string
+	Pref   string
 	PrefEn string
-	Name string
-	NameEn	string
-	URL string
+	Name   string
+	NameEn string
+	URL    string
 }
 
 func main() {
@@ -138,13 +139,13 @@ func main() {
 			s := strings.Split(record[4], " ")
 			if len(s) == 2 {
 				// 〜市/町/村/区(東京都)
-				record[4] = strings.Title(strings.ToLower(s[0])) + strings.ToLower("-" + s[1])
+				record[4] = strings.Title(strings.ToLower(s[0])) + strings.ToLower("-"+s[1])
 			} else if len(s) == 4 {
 				// 〜郡 〜市/町/村 or 〜市/町/村 〜区
 				if s[1] == "GUN" {
-					record[4] = strings.Title(strings.ToLower(s[2])) + strings.ToLower("-" + s[3])
+					record[4] = strings.Title(strings.ToLower(s[2])) + strings.ToLower("-"+s[3])
 				} else {
-					record[4] = strings.Title(strings.ToLower(s[0])) + strings.ToLower("-" + s[1])
+					record[4] = strings.Title(strings.ToLower(s[0])) + strings.ToLower("-"+s[1])
 				}
 			} else {
 				// 例外パターン
@@ -177,22 +178,22 @@ func main() {
 
 		if !dup {
 			municipalities = append(municipalities, Municipality{
-				Pref:           record[0],
-				PrefEn: 		record[3],
+				Pref:   record[0],
+				PrefEn: record[3],
 				Name:   record[1],
 				NameEn: record[4],
-				URL: cityToURL[record[0] + record[1]],
+				URL:    cityToURL[record[0]+record[1]],
 			})
-			if err := writerSjisCRLF.Write([]string{record[0], record[3], record[1], record[4], cityToURL[record[0] + record[1]]}); err != nil {
+			if err := writerSjisCRLF.Write([]string{record[0], record[3], record[1], record[4], cityToURL[record[0]+record[1]]}); err != nil {
 				fmt.Println(err)
 			}
-			if err := writerUtf8CRLF.Write([]string{record[0], record[3], record[1], record[4], cityToURL[record[0] + record[1]]}); err != nil {
+			if err := writerUtf8CRLF.Write([]string{record[0], record[3], record[1], record[4], cityToURL[record[0]+record[1]]}); err != nil {
 				fmt.Println(err)
 			}
-			if err := writerSjisLF.Write([]string{record[0], record[3], record[1], record[4], cityToURL[record[0] + record[1]]}); err != nil {
+			if err := writerSjisLF.Write([]string{record[0], record[3], record[1], record[4], cityToURL[record[0]+record[1]]}); err != nil {
 				fmt.Println(err)
 			}
-			if err := writerUtf8LF.Write([]string{record[0], record[3], record[1], record[4], cityToURL[record[0] + record[1]]}); err != nil {
+			if err := writerUtf8LF.Write([]string{record[0], record[3], record[1], record[4], cityToURL[record[0]+record[1]]}); err != nil {
 				fmt.Println(err)
 			}
 		}
